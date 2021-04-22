@@ -3,10 +3,11 @@ require 'rails_helper'
 RSpec.describe 'ingredient show page' do
   before(:each) do
     @chef = Chef.create!(name: 'Gordon Ramsey')
-    @chef_2 = Chef.create!(name: 'Chef 2')
-    @chef_3 = Chef.create!(name: 'Chef 3')
+    @chef_2 = Chef.create!(name: 'Alan Watts')
+    @chef_3 = Chef.create!(name: 'Zelda')
 
     @ingredient = Ingredient.create!(name: 'Siracha', calories: 50)
+    @ingredient_2 = Ingredient.create!(name: 'Beans', calories: 100)
 
     @dish_1 = @chef.dishes.create!(name: 'pasta', description: 'yummy pasta')
     @dish_2 = @chef.dishes.create!(name: 'chicken', description: 'great chicken')
@@ -19,6 +20,8 @@ RSpec.describe 'ingredient show page' do
     DishesIngredient.create!(dish: @dish_1, ingredient: @ingredient)
     DishesIngredient.create!(dish: @dish_2, ingredient: @ingredient)
     DishesIngredient.create!(dish: @dish_3, ingredient: @ingredient)
+    DishesIngredient.create!(dish: @dish_5, ingredient: @ingredient)
+    DishesIngredient.create!(dish: @dish_6, ingredient: @ingredient_2)
   end
 
   it 'displays ingredient attributes'  do
@@ -43,14 +46,13 @@ RSpec.describe 'ingredient show page' do
     expect(page).to_not have_content(@dish_4.name)
   end
 
-  # it "displays unique associated chef names alphabetically ordered" do
-  #   visit "/ingredients/#{@ingredient.id}"
-  #
-  #   expect(page).to have_content(@chef.name)
-  #   expect(page).to have_content(@dish_1.description)
-  #
-  #   # Then I see the name of all chefs that use this ingredient in any of their dishes
-  #   # And I see that the list of chefs is unique (contains no duplicate chefs)
-  #   # And I see that the chefs are ordered alphabetically by name (A - Z)
-  # end
+  it "displays unique associated chef names alphabetically ordered" do
+    visit "/ingredients/#{@ingredient.id}"
+
+    expect(page).to have_content(@chef.name, count: 1)
+    expect(page).to have_content(@chef_2.name, count: 1)
+    expect(page).to_not have_content(@chef_3.name)
+
+    expect(@chef_2.name).to appear_before(@chef.name)
+  end
 end
