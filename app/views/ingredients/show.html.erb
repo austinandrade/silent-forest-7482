@@ -1,5 +1,10 @@
 <p> <%= @ingredient.name %> </p>
 <p> <%= @ingredient.calories %> </p>
+
 <% @ingredient.dishes.each do |dish| %>
 <p> <%= dish.name %>, <%= dish.description %> </p>
+<% end %>
+
+<% @ingredient.distinct_chefs_alphabetized.each do |chef| %>
+<p> <%= chef.name %> </p>
 <% end %>
