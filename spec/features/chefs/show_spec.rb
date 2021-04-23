@@ -1,13 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Chef, type: :model do
-  describe "validations" do
-    it {should validate_presence_of :name}
-  end
-  describe "relationships" do
-    it {should have_many :dishes}
-  end
-
+RSpec.describe 'ingredient show page' do
   before(:each) do
     @chef = Chef.create!(name: 'Gordon Ramsey')
 
@@ -34,11 +27,15 @@ RSpec.describe Chef, type: :model do
     DishesIngredient.create!(dish: @dish_4, ingredient: @ingredient_3)
   end
 
-  describe 'instance methods' do
-    describe '#most_popular_ingredients' do
-      it "displays the chef's three ingredients in descending order" do
-        expect(@chef.most_popular_ingredients).to eq([@ingredient_3, @ingredient_2, @ingredient])
-      end
+  it 'displays ingredient attributes'  do
+    visit "/chefs/#{@chef.id}"
+
+    within "#most_popular_dishes" do
+
+      expect(page).to have_content(@ingredient.name)
+      expect(page).to have_content(@ingredient_2.name)
+      expect(page).to have_content(@ingredient_3.name)
+      expect(page).to_not have_content(@ingredient_4.name)
     end
   end
 end

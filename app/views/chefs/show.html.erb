@@ -1,0 +1,5 @@
+<div id="most_popular_dishes">
+  <% @chef.most_popular_ingredients.each do |ingredient| %>
+  <p> <%= ingredient.name %> </p>
+  <% end %>
+</div>
