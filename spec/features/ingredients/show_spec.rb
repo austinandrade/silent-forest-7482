@@ -74,13 +74,6 @@ RSpec.describe 'ingredient show page' do
     within "#dish-#{@dish_5.id}" do
       expect(page).to have_button("remove")
     end
-
-
-    # When I click one of these buttons
-    # Then the ingredient is no longer associated with the dish
-    # And I am returned to the ingredient's show page
-    # And I no longer see the dish listed
-    # (Note: You should not destroy the dish record entirely)
   end
 
   it "displays delete buttons next to each dish" do
