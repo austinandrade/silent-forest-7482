@@ -2,7 +2,11 @@
 <p> <%= @ingredient.calories %> </p>
 
 <% @ingredient.dishes.each do |dish| %>
-<p> <%= dish.name %>, <%= dish.description %> </p>
+<div id="dish-<%= dish.id %>">
+  <p> <%= button_to "remove", dishes_ingredient_path(dish: dish, ingredient: @ingredient), method: :patch %>
+      <%= dish.name %>, <%= dish.description %>
+  </p>
+</div>
 <% end %>
 
 <% @ingredient.distinct_chefs_alphabetized.each do |chef| %>
