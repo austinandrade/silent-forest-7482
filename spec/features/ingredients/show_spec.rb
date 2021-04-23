@@ -55,4 +55,42 @@ RSpec.describe 'ingredient show page' do
 
     expect(@chef_2.name).to appear_before(@chef.name)
   end
+
+  it "displays delete buttons next to each dish" do
+    visit "/ingredients/#{@ingredient.id}"
+
+    within "#dish-#{@dish_1.id}" do
+      expect(page).to have_button("remove")
+    end
+
+    within "#dish-#{@dish_2.id}" do
+      expect(page).to have_button("remove")
+    end
+
+    within "#dish-#{@dish_3.id}" do
+      expect(page).to have_button("remove")
+    end
+
+    within "#dish-#{@dish_5.id}" do
+      expect(page).to have_button("remove")
+    end
+
+
+    # When I click one of these buttons
+    # Then the ingredient is no longer associated with the dish
+    # And I am returned to the ingredient's show page
+    # And I no longer see the dish listed
+    # (Note: You should not destroy the dish record entirely)
+  end
+
+  it "displays delete buttons next to each dish" do
+    visit "/ingredients/#{@ingredient.id}"
+
+    within "#dish-#{@dish_1.id}" do
+      click_button "remove"
+    end
+
+    expect(page).to_not have_content(@dish_1.name)
+    expect(page).to have_current_path("/ingredients/#{@ingredient.id}")
+  end
 end
